@@ -5,7 +5,6 @@ import NotFound from "../images/404.png";
 export default function PageNotFound() {
   const navigate = useNavigate();
   function handleGoBack() {
-    console.log("oi");
     navigate("/");
   }
   return <Image src={NotFound} onClick={handleGoBack} />;

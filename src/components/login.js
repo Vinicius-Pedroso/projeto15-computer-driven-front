@@ -1,38 +1,74 @@
 import styled from 'styled-components'
-import { useState } from "react";
+import swal from "sweetalert";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Contexts/AuthContext";
 
 export default function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const { setJwt } = useContext(AuthContext);
+
+    function handleLogin (event){
+
+        event.preventDefault();
+
+        const userLogin = {
+            email: email,
+            password, password
+        }
+
+        const response = axios.post(`http://localhost:5000/sign-in`, userLogin)
+
+        response.then((res) => {
+        if (res.data.message) {
+            return swal({
+            title: "Error",
+            text: res.data.message,
+            icon: "error",
+            timer: "7000",
+            });
+        }
+
+        setJwt(res.data.token);
+        navigate("/");
+        
+        });
+    }
 
     return (
         <Container>
 
             <img src='./img/leave.png' alt="" />
 
-            <input
-                type="email"
-                placeholder="E-mail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
+            <Form autoComplete="off">
 
-            <input
-                type="password"
-                placeholder="Senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+                <input
+                    type="email"
+                    placeholder="E-mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <input
+                    type="password"
+                    placeholder="Senha"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
 
-            <button>Fazer Login</button>
-            <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-                <p>
-                    Não possui cadastro? <span>Faça seu cadastro!</span>
-                </p>
-            </Link>
+                <button onClick={handleLogin}>Fazer Login</button>
+
+                <Link to="/signup" style={{ textDecoration: "none", color: "black" }}>
+                    <p>
+                        Não possui cadastro? <span>Faça seu cadastro!</span>
+                    </p>
+                </Link>
+
+            </Form>
 
         </Container>
     )
