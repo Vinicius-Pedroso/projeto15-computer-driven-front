@@ -1,11 +1,21 @@
 import { useNavigate } from "react-router";
 import { useState } from 'react'
-
+import { ProductAddOne, ProductSubOne, ProductRemove } from "./cartFunctions";
+import { RefreshContext } from "../Contexts/RefreshContext";
 
 export default function cart(){
 
+    const { refresh } = useContext(RefreshContext);
+    const { jwt, setJwt } = useContext(AuthContext);
     const navigate = useNavigate("")
-    const [useProducts, setUseProducts] = useState([])
+    const [balance, setBalance] = useState(0)
+    const [cartProducts, setCartProducts] = useState([])
+
+    useEffect(() => {
+
+        DisplayProducts();
+    
+    }, [refresh]);
 
     function handleOut(){
 
@@ -13,20 +23,56 @@ export default function cart(){
         navigate("/");
     }
 
-    function HandleAddProduct (){
+    function HandleAddProduct (productId){
 
+        ProductAddOne(productId, jwt).then((res) => {
+            if (res.status === 401) {
+              return console.log("erro ao editar o produto")
+            }
+        });
+
+        DisplayProducts();
     }
 
-    function HandleSubProduct (){
+    function HandleSubProduct (productId){
 
-    }
-
-    function HandleRemoveProduct (){
-
-    }
-
-    function DisplayProducts (){
+        ProductSubOne(productId, jwt).then((res) => {
+            if (res.status === 401) {
+              return console.log("erro ao editar o produto")
+            }
+        });
         
+        DisplayProducts();
+    }
+
+    function HandleRemoveProduct (productId, productId){
+
+        ProductRemove(jwt).then((res) => {
+            if (res.status === 401) {
+              return console.log("erro ao deletar o produto do carrinho")
+            }
+        });
+
+        DisplayProducts();
+    }
+
+    async function DisplayProducts (){
+
+        let total = 0
+
+        if (!jwt) {
+            navigate("/");
+        }
+
+        const response = await pullAllUserProducts(jwt);
+        setUser(response.data.user);
+        setCartProducts(response.data.products);
+
+        response.data.products.forEach((product) => {
+            total += Number(product.value*product.amount);
+        }) 
+  
+        setBalance(total);
     }
 
     return (
@@ -41,20 +87,20 @@ export default function cart(){
 
                 <Products>
                     <ul>
-                        {products.map((product, id) => (
+                        {cartProducts.map((product, id) => (
                             <li key={id}>
 
                                 <div>
                                     {/* product data */}
                                 </div>
 
-                                <Button onClick={() => HandleAddProduct()}>
+                                <Button onClick={() => HandleAddProduct(key)}>
                                     <ion-icon name="close-circle-outline">Adicionar</ion-icon>
                                 </Button>
-                                <Button onClick={() => HandleSubProduct("entrada")}>
+                                <Button onClick={() => HandleSubProduct(key)}>
                                     <ion-icon name="remove-circle-outline">Retirar</ion-icon>
                                 </Button>
-                                <Button onClick={() => HandleRemoveProduct("entrada")}>
+                                <Button onClick={() => HandleRemoveProduct(key)}>
                                     <ion-icon name="close-circle-outline">Deletar</ion-icon>
                                 </Button>
 
@@ -65,7 +111,7 @@ export default function cart(){
 
                 <Balance>
                     <span>Custo total:</span>
-                    <span>R$ {finalPrice}</span>
+                    <span>R$ {balance}</span>
                 </Balance>
 
                 <section>
@@ -88,6 +134,10 @@ const Container = styled.div`
     }
 `
 
-const ProductTemplate = styled.section`
+const Products = styled.section`
+
+`
+
+const Balance = styled.div`
 
 `
