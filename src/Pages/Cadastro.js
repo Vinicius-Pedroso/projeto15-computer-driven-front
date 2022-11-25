@@ -1,13 +1,28 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import logo from "../Assets/27dd36c9dc1349ffa91746cce1db97d4.png";
+import axios from "axios";
 
 export default function Cadastro() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+
+  const navigate = useNavigate
+
+  function enviarCadastro(e){
+    e.preventDefault()
+
+    const URL = "http://localhost:5000/sign-up"
+    const body ={nome,email, password1, password2}
+    axios.post(URL, body)
+    .then((res) =>{
+      navigate("/")
+    }).catch((res) => console.log(res))
+  }
+
 
   return (
     <TelaInteira>
@@ -41,7 +56,7 @@ export default function Cadastro() {
         onChange={(e) => setPassword2(e.target.value)}
       />
 
-      <button>Enviar Cadastro</button>
+      <button onClick={enviarCadastro}>Enviar Cadastro</button>
       <Link to="/" style={{ textDecoration: "none", color: "black" }}>
         <p>
           Já possui cadastro? <span>Faça seu login!</span>

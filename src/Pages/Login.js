@@ -30,7 +30,7 @@ export default function Cadastro() {
 
 
       <button>Fazer Login</button>
-      <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+      <Link to="/cadastro" style={{ textDecoration: "none", color: "black" }}>
         <p>
           Não possui cadastro? <span>Faça seu cadastro!</span>
         </p>
