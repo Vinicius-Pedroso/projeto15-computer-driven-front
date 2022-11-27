@@ -62,7 +62,7 @@ export default function Login() {
 
                 <button onClick={handleLogin}>Fazer Login</button>
 
-                <Link to="/signup" style={{ textDecoration: "none", color: "black" }}>
+                <Link to="/cadastro" style={{ textDecoration: "none", color: "black" }}>
                     <p>
                         Não possui cadastro? <span>Faça seu cadastro!</span>
                     </p>
