@@ -5,7 +5,7 @@ import Cadastro from "./Pages/Cadastro";
 import Produtos from "./Pages/Produtos";
 import Cart from "./Pages/cart";
 import PageNotFound from "./Components/PageNotFound";
-import CheckOut from "./Components/checkOut";
+import CheckOut from "./Pages/checkOut";
 
 function App() {
   return (

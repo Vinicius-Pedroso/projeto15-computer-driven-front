@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { useState } from 'react'
-import { ProductAddOne, ProductSubOne, ProductRemove } from "./cartFunctions";
+import { ProductAddOne, ProductSubOne, ProductRemove } from "../Components/cartFunctions";
 import { RefreshContext } from "../Contexts/RefreshContext";
 
 export default function Cart(){
@@ -45,7 +45,7 @@ export default function Cart(){
         DisplayProducts();
     }
 
-    function HandleRemoveProduct (productId, productId){
+    function HandleRemoveProduct (productId){
 
         ProductRemove(jwt).then((res) => {
             if (res.status === 401) {

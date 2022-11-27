@@ -10,7 +10,7 @@ export default function Produtos() {
       <Topo>
         <p>Driven Computers</p>
       </Topo>
-      <p>Olá, esses são nossos produtos!</p>
+      <p>Olá, {user}! Esses são nossos produtos!</p>
       <ProdutosTodos>
         <Produto />
       </ProdutosTodos>
