@@ -8,9 +8,9 @@ export default async function reportCompleteCheckout (){
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
-      })
-      .catch((err) => {
-        return err.response;
-      });
+        })
+        .catch((err) => {
+            return err.response;
+        });
     return alert.log("Seu pedido foi realizado com sucesso!")
 }

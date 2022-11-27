@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ProductAddOne, ProductSubOne, ProductRemove } from "../Components/cartFunctions";
 import { RefreshContext } from "../Contexts/RefreshContext";
 
@@ -23,9 +23,9 @@ export default function Cart(){
         navigate("/");
     }
 
-    function HandleAddProduct (productId){
+    async function HandleAddProduct (productId){
 
-        ProductAddOne(productId, jwt).then((res) => {
+        await ProductAddOne(productId, jwt).then((res) => {
             if (res.status === 401) {
               return console.log("erro ao editar o produto")
             }
@@ -34,9 +34,9 @@ export default function Cart(){
         DisplayProducts();
     }
 
-    function HandleSubProduct (productId){
+    async function HandleSubProduct (productId){
 
-        ProductSubOne(productId, jwt).then((res) => {
+        await ProductSubOne(productId, jwt).then((res) => {
             if (res.status === 401) {
               return console.log("erro ao editar o produto")
             }
@@ -45,9 +45,9 @@ export default function Cart(){
         DisplayProducts();
     }
 
-    function HandleRemoveProduct (productId){
+    async function HandleRemoveProduct (productId){
 
-        ProductRemove(jwt).then((res) => {
+        await ProductRemove(jwt).then((res) => {
             if (res.status === 401) {
               return console.log("erro ao deletar o produto do carrinho")
             }
@@ -64,11 +64,17 @@ export default function Cart(){
             navigate("/");
         }
 
-        const response = await pullAllUserProducts(jwt);
-        setUser(response.data.user);
-        setCartProducts(response.data.products);
+        const response = axios.get(`http://localhost:5000/cart`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        }).catch((err) => {
+            return err.response;
+        });
+    
+        setCartProducts(response.data.cartProducts);
 
-        response.data.products.forEach((product) => {
+        response.data.cartProducts.forEach((product) => {
             total += Number(product.value*product.amount);
         }) 
   
