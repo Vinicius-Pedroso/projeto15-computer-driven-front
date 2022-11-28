@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { RefreshContext } from "../Contexts/RefreshContext";
-import reportCompleteCheckout from "../Components/checkOutFunction";
+import { reportCompleteCheckout } from "../Components/reportCompleteCheck";
 import joi from 'joi'
 
 export default function CheckOut (){
@@ -63,7 +63,7 @@ export default function CheckOut (){
             return alert("Endereço inválido")    
         }
 
-        function reportCompleteCheckout ()            
+        reportCompleteCheckout()    
     }
 
     return (

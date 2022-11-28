@@ -20,7 +20,7 @@ export default function Login() {
             password, password
         }
 
-        const response = axios.post(`http://localhost:5000/sign-in`, userLogin)
+        const response = axios.post(`http://localhost:5000/login`, userLogin)
 
         response.then((res) => {
         if (res.data.message) {
