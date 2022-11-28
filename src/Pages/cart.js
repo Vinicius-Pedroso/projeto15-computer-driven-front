@@ -1,7 +1,10 @@
+import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useState, useEffect } from 'react'
 import { ProductAddOne, ProductSubOne, ProductRemove } from "../Components/cartFunctions";
 import { RefreshContext } from "../Contexts/RefreshContext";
+import { AuthContext } from "../context/AuthContext";
+import { reportCompleteCheckout } from "../Components/reportCompleteCheck";
 import joi from 'joi'
 
 export default function Cart() {
@@ -113,7 +116,7 @@ export default function Cart() {
     }
 
     return (
-        <Container>
+        <Container>po
 
             <header>
                 <h2>Bem vindo, {user.name}</h2>
