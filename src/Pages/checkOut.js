@@ -77,7 +77,7 @@ export default function CheckOut (){
                 }
 
                 if(cartProducts){
-                    <p>Olá {user}! Confira abaixo se seu carrinho contem exatamente o que você deseja!</p>    
+                    <p>Olá {user}! Confira os produtos selecionados!</p>    
                 }
                 
                 {cartProducts.map((product, id) => (

@@ -59,7 +59,6 @@ export default function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-
                 <button onClick={handleLogin}>Fazer Login</button>
 
                 <Link to="/cadastro" style={{ textDecoration: "none", color: "black" }}>

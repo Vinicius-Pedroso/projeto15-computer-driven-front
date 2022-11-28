@@ -47,7 +47,7 @@ export default function Cart(){
 
     async function HandleRemoveProduct (productId){
 
-        await ProductRemove(jwt).then((res) => {
+        await ProductRemove(productId, jwt).then((res) => {
             if (res.status === 401) {
               return console.log("erro ao deletar o produto do carrinho")
             }
