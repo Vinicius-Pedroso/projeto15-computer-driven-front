@@ -3,31 +3,26 @@ import axios from "axios";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useState } from "react";
 
-export default function Produto({
-  preco,
-  nome,
-  descricao,
-  imagem,
-  productId,
-  token,
-}) {
-  const [produtoAdicionado, setProdutoAdicionado] = useState(false);
+export default function Produto({objeto}) {
+  const [produtoAdicionado, setProdutoAdicionado] = useState(true);
+  const [quantity, setQuantity] = useState(1);
 
-  const URL = `http://localhost:5000/carrinho/${productId}`;
-  const config = {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  };
+  const URL = `http://localhost:5000/carrinho`;
+  // const config = {
+  //   headers: {
+  //     Authorization: "Bearer " + token,
+  //   }
+  // };
   function enviarProdutoCarrinho(e) {
     e.preventDefault();
-    
+
     const body = {
-      productId,
+      // id,
+      quantity,
     };
 
     axios
-      .post(URL, body, config)
+      .post(URL, body)
       .then((res) => {
         setProdutoAdicionado(!produtoAdicionado);
       })
@@ -36,35 +31,37 @@ export default function Produto({
       });
   }
 
-  function deletarProdutoCarrinho(e) {
-    e.preventDefault()
-    axios.delete(URL, config)
-    .then((res) => {
-        setProdutoAdicionado(!produtoAdicionado)
-    })
-    .catch((res) => {
-        console.log(res)
-    })
-  }
-  
   return (
     <ProdutoCard>
       <div className="card">
         <div className="card-img">
-          <img src={imagem} alt="" />
+          <img src="" alt="" />
         </div>
         <div className="card-info">
-          <p className="text-title">{nome} </p>
-          <p className="text-body">{descricao}</p>
+          <p className="text-title"> </p>
         </div>
         <div className="card-footer">
-          <span className="text-title">R$ {preco}</span>
+          <span className="text-title">R$ </span>
+          <p>Quantidade: </p>
+          <select
+            name="quantity"
+            id=""
+            onChange={(e) => {
+              const selectedValue = e.target.value;
+              setQuantity(selectedValue);
+            }}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
           <div className="card-button">
             {produtoAdicionado ? (
               <AiOutlineShoppingCart onClick={enviarProdutoCarrinho} />
             ) : (
-              <div className="deletar" onClick={deletarProdutoCarrinho}>
-                <p>Retirar do carrinho!</p>
+              <div className="deletar">
+                <p>Adicionado ao carrinho!</p>
               </div>
             )}
           </div>
@@ -89,9 +86,9 @@ const ProdutoCard = styled.div`
   p {
     font-size: 15px;
     font-family: Poppins;
-    color: white;
+    color: black;
   }
-  .deletar{
+  .deletar {
     width: 100px;
     height: 40px;
     background-color: grey;
@@ -143,18 +140,19 @@ const ProdutoCard = styled.div`
     display: flex;
     padding: 0.3em;
     cursor: pointer;
-
+    border: 1px solid black;
+    border-radius: 50%;
     transition: 0.3s ease-in-out;
   }
 
   .card-img:hover {
-    transform: translateY(-25%);
+    transform: translateY(-10%);
     box-shadow: rgba(226, 196, 63, 0.25) 0px 13px 47px -5px,
       rgba(180, 71, 71, 0.3) 0px 8px 16px -8px;
   }
 
   .card-button:hover {
-    border: 1px solid #ffcaa6;
-    background-color: #ffcaa6;
+    border: 1px solid black;
+    border-radius: 50%;
   }
 `;

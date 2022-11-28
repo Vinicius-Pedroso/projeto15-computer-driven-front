@@ -1,18 +1,33 @@
 import styled from "styled-components";
 import { useState } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../Assets/27dd36c9dc1349ffa91746cce1db97d4.png";
+// import { AuthContext } from "../Contexts/AuthContext";
+// import { useContext } from "react";
 
 export default function Cadastro() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  // const setJwt  = useContext(AuthContext);
 
+  function sendToHome(e) {
+    e.preventDefault();
 
+    const URL = "http://localhost:5000/login";
+    const body = { email, password };
+    axios
+      .post(URL, body)
+      .then((res) => {
+        // setJwt(res.data.token);
+        navigate("/produtos");
+      })
+      .catch((res) => console.log(res));
+  }
   return (
     <TelaInteira>
       <img src={logo} alt="" />
-
 
       <input
         type="email"
@@ -20,16 +35,13 @@ export default function Cadastro() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-
       <input
         type="password"
         placeholder="Senha"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-
-
-      <button>Fazer Login</button>
+      <button onClick={sendToHome}>Fazer Login</button>
       <Link to="/cadastro" style={{ textDecoration: "none", color: "black" }}>
         <p>
           Não possui cadastro? <span>Faça seu cadastro!</span>

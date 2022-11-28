@@ -10,12 +10,12 @@ export default function Cadastro() {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
 
-  const navigate = useNavigate
+  const navigate = useNavigate()
 
   function enviarCadastro(e){
     e.preventDefault()
 
-    const URL = "http://localhost:5000/sign-up"
+    const URL = "http://localhost:5000/signup"
     const body ={nome,email, password1, password2}
     axios.post(URL, body)
     .then((res) =>{
